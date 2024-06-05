@@ -168,7 +168,6 @@ void loadFromFile(vector <Student>& students) {
             str = "";
             getline(fin, str);
 
-
             int cur_pos = 0;
             int glob_pos = 0;
             string st[12];
