@@ -59,6 +59,10 @@ public:
 
     ~Student() {
     }
+
+    string getFullName() {
+        return surname + " " + name + " " + patronymic;
+    }
 };
 
 bool check_name(const char name[31])
@@ -149,10 +153,24 @@ void variant_54(vector <Student>& students, string group_name, short session_num
     }
 }
 
+/**
+* зашифровать файл при помощи openssl (1234 - пароль)
+* openssl enc -aes-256-cbc -k 1234 -in students.csv -out students.enc
+*
+* дешифровать файл при помощи openssl (1234 - пароль)
+* openssl enc -d -aes-256-cbc -k 1234 -in students.enc -out enc_students.csv
+*/
 void loadFromFile(vector <Student>& students) {
     setlocale(LC_ALL, "ru");
+
+    // дешифровать файл при помощи openssl(1234 - пароль)
+    // шифрованный файл students.enc дешифруется в students.csv
+    system("openssl enc -d -aes-256-cbc -k 1234 -in students.enc -out students.csv");
+
+    // открываем дешифрованный файл students.csv
     string path = "students.csv";
     ifstream fin;
+
     fin.open(path);
     if (!fin.is_open())
     {
@@ -163,6 +181,7 @@ void loadFromFile(vector <Student>& students) {
         cout << "Файл открыт! " << endl;
         string str;
         int i = 0;
+
         while (!fin.eof())
         {
             str = "";
@@ -195,6 +214,8 @@ void loadFromFile(vector <Student>& students) {
         }
     }
     fin.close();
+    // удалем дешифрованный файл students.csv
+    remove("students.csv");
 }
 
 int main()
@@ -287,7 +308,7 @@ int main()
                 {
                     cout << "пол: мужской" << endl;
                 }
-                else 
+                else
                 {
                     cout << "пол: женский" << endl;
                 }
